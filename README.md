@@ -8,5 +8,5 @@ A simple GUI application for adding CI's into firescope monitoring solution. Ver
 
 Hopefully once firescope update the web serviceds to offer more functionality i will increase the features.
 
-## william fleming
+William Fleming
 ## www.kerneltalk.co.uk
