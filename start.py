@@ -19,7 +19,7 @@ class StartQT4(QtGui.QMainWindow):
         self.setWindowIcon(QtGui.QIcon('firescope.png'))
 	self.setMouseTracking(True)
 	
-	self.resize(400,350)
+	self.resize(400,400)
 	self.ciEditLine = QtGui.QLineEdit(self)
 	self.ciEditLine.move(20,0)
         self.monitorEditLine = QtGui.QLineEdit(self)
@@ -34,17 +34,22 @@ class StartQT4(QtGui.QMainWindow):
 	self.tmpEditLine.move(20,175)
 	self.tmpopEditLine = QtGui.QLineEdit(self)
 	self.tmpopEditLine.move(20,210)
+	self.logEditLine = QtGui.QLineEdit(self)
+	self.logEditLine.move(20,245)
 	self.createButton = QtGui.QPushButton(self)
-        self.createButton.move(20,245)
+        self.createButton.move(20,280)
         self.createButton2 = QtGui.QPushButton(self)
-        self.createButton2.move(20, 280)
+        self.createButton2.move(20, 315)
 	self.delButton = QtGui.QPushButton(self)
-	self.delButton.move(20,315)
+	self.delButton.move(130,280)
+	self.createButton3 = QtGui.QPushButton(self)
+	self.createButton3.move(130,315)
 
 	####BUTTON SIGNALS####
 	QtCore.QObject.connect(self.createButton,QtCore.SIGNAL("clicked()"), self.create_srv)
 	QtCore.QObject.connect(self.createButton2,QtCore.SIGNAL("clicked()"), self.create_tmp)
 	QtCore.QObject.connect(self.delButton,QtCore.SIGNAL("clicked()"), self.del_ci)
+	QtCore.QObject.connect(self.createButton3,QtCore.SIGNAL("clicked()"), self.create_log)
 	
 	####LABELS####
 	self.monitorLabel = QtGui.QLabel(self)
@@ -61,6 +66,8 @@ class StartQT4(QtGui.QMainWindow):
 	self.tmpLabel.move(130,175)
 	self.tmpopLabel = QtGui.QLabel(self)
 	self.tmpopLabel.move(130,210)
+	self.logLabel = QtGui.QLabel(self)
+	self.logLabel.move(130,245)
 	
 	####LABELS#####
 	self.monitorLabel.setText(QtGui.QApplication.translate("From", "MONITORED", None, QtGui.QApplication.UnicodeUTF8))
@@ -73,6 +80,8 @@ class StartQT4(QtGui.QMainWindow):
 	self.tmpLabel.setText(QtGui.QApplication.translate("Form", "Template",None, QtGui.QApplication.UnicodeUTF8))
 	self.tmpopLabel.setText(QtGui.QApplication.translate("Form", "CREATE UPDATE",None, QtGui.QApplication.UnicodeUTF8))
 	self.delButton.setText(QtGui.QApplication.translate("Form", "Delete CI",None, QtGui.QApplication.UnicodeUTF8))
+	self.createButton3.setText(QtGui.QApplication.translate("Form", "Create Logical", None, QtGui.QApplication.UnicodeUTF8))
+	self.logLabel.setText(QtGui.QApplication.translate("Form", "Logical Group", None, QtGui.QApplication.UnicodeUTF8))
 
     def create_srv(self):
 	try:
@@ -98,6 +107,13 @@ class StartQT4(QtGui.QMainWindow):
 		response = client.service.deleteConfigurationItem(self.ciEditLine.text())
 		QtGui.QMessageBox.about(self, "Success", "Success")
 	except WebFault, e:
+		QtGui.QMessageBox.about(self, "Failed", "Failed")
+
+    def create_log(self):
+	try:
+		response = client.service.createLogicalGroup(self.logEditLine.text())
+		QtGui.QMessageBox.about(self, "Success", "Success")
+	except Webfault, e:
 		QtGui.QMessageBox.about(self, "Failed", "Failed")
 
 #    def checkText(self):
