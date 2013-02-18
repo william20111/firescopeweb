@@ -32,7 +32,8 @@ class StartQT4(QtGui.QMainWindow):
 	self.createButton = QtGui.QPushButton(self)
         QtCore.QObject.connect(self.createButton,QtCore.SIGNAL("clicked()"), self.create_srv)
 	self.createButton.move(50, 175)
-
+	self.menubar = QtGui.QMenuBar(self)
+	
 	self.monitorLabel = QtGui.QLabel(self)
 	self.monitorLabel.move (160,35)
 	self.ciLabel = QtGui.QLabel(self)
