@@ -7,7 +7,7 @@ from suds.wsse import *
 logging.basicConfig(level=logging.DEBUG)
 logging.getLogger("suds.client").setLevel(logging.CRITICAL)
 url = "http://firescopetest:8048/services/FireScopeConfigurationWebService/v1?wsdl"
-token = UsernameToken("webservices", "password")
+token = UsernameToken("xxx", "xxx")
 security = Security()
 security.tokens.append(token)
 
