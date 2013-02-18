@@ -1,10 +1,11 @@
 firescopeweb
 ============
 
-A simple GUI application for adding CI's into firescope monitoring solution. Very experimental and could be broken as i update the GUI and functions. The web services in Firescope are limited but this currently allows you to:
+A simple GUI application for adding CI's into firescope monitoring solution. Very experimental and could be broken as i update the GUI and functions. The web services in Firescope are limited but this application provides the features below:
 
 - Add CI's
 - Link CI's to Templates
+- Delete CI's
 
 The option create logical groups and templates will be added when i have time 
 
