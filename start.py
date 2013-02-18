@@ -4,21 +4,24 @@ import suds
 from PyQt4 import QtCore, QtGui
 from suds.wsse import *
 
+
 logging.basicConfig(level=logging.DEBUG)
 logging.getLogger("suds.client").setLevel(logging.CRITICAL)
-url = "http://firescopetest:8048/services/FireScopeConfigurationWebService/v1?wsdl"
 token = UsernameToken("webservices", "password")
 security = Security()
 security.tokens.append(token)
-
+url = "http://firescopetest:8048/services/FireScopeConfigurationWebService/v1?wsdl"
 client = suds.client.Client(url)
 client.set_options(wsse = security)
+
 
 class StartQT4(QtGui.QMainWindow):
     def __init__(self,parent=None):
         
 	QtGui.QMainWindow.__init__(self,parent)
-        self.resize(400,340)
+        self.setWindowIcon(QtGui.QIcon('firescope.png'))
+
+	self.resize(400,350)
 	self.ciEditLine = QtGui.QLineEdit(self)
 	self.ciEditLine.move(20,0)
         self.monitorEditLine = QtGui.QLineEdit(self)
@@ -37,10 +40,13 @@ class StartQT4(QtGui.QMainWindow):
         self.createButton.move(20,245)
         self.createButton2 = QtGui.QPushButton(self)
         self.createButton2.move(20, 280)
+	self.delButton = QtGui.QPushButton(self)
+	self.delButton.move(20,315)
 
 	####BUTTON SIGNALS####
 	QtCore.QObject.connect(self.createButton,QtCore.SIGNAL("clicked()"), self.create_srv)
 	QtCore.QObject.connect(self.createButton2,QtCore.SIGNAL("clicked()"), self.create_tmp)
+	QtCore.QObject.connect(self.delButton,QtCore.SIGNAL("clicked()"), self.del_ci)
 	
 	####LABELS####
 	self.monitorLabel = QtGui.QLabel(self)
@@ -68,9 +74,10 @@ class StartQT4(QtGui.QMainWindow):
 	self.createButton2.setText(QtGui.QApplication.translate("Form", "Create Temp",None, QtGui.QApplication.UnicodeUTF8))
 	self.tmpLabel.setText(QtGui.QApplication.translate("Form", "Template",None, QtGui.QApplication.UnicodeUTF8))
 	self.tmpopLabel.setText(QtGui.QApplication.translate("Form", "CREATE UPDATE",None, QtGui.QApplication.UnicodeUTF8))
-	
+	self.delButton.setText(QtGui.QApplication.translate("Form", "Delete CI",None, QtGui.QApplication.UnicodeUTF8))
+
     def create_srv(self):
-        try:
+	try:
                 response = client.service.createConfigurationItem(self.ciEditLine.text(), self.monitorEditLine.text(), self.bolEditLine.text(), self.dnsEditLine.text(), self.ipEditLine.text())
                 print response
         except WebFault, e:
@@ -80,6 +87,13 @@ class StartQT4(QtGui.QMainWindow):
     def create_tmp(self):
 	try:
 		response = client.service.linkTemplate(self.tmpEditLine.text(), self.ciEditLine.text(), self.tmpopEditLine.text())
+		print response
+	except WebFault, e:
+		print e
+
+    def del_ci(self):
+	try:
+		response = client.service.deleteConfigurationItem(self.ciEditLine.text())
 		print response
 	except WebFault, e:
 		print e
