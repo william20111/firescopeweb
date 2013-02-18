@@ -6,8 +6,7 @@ A simple GUI application for adding CI's into firescope monitoring solution. Ver
 - Add CI's
 - Link CI's to Templates
 - Delete CI's
-
-The option create logical groups and templates will be added when i have time 
+- Create logical groups
 
 Hopefully once firescope update the web serviceds to offer more functionality i will increase the features. Right now they are very limited. Would really like to see a AED a AD web service in the future. 
 
