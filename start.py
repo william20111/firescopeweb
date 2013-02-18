@@ -4,9 +4,6 @@ import suds
 from PyQt4 import QtCore, QtGui
 from suds.wsse import *
 
-
-logging.basicConfig(level=logging.DEBUG)
-logging.getLogger("suds.client").setLevel(logging.CRITICAL)
 token = UsernameToken("webservices", "password")
 security = Security()
 security.tokens.append(token)
@@ -20,7 +17,8 @@ class StartQT4(QtGui.QMainWindow):
         
 	QtGui.QMainWindow.__init__(self,parent)
         self.setWindowIcon(QtGui.QIcon('firescope.png'))
-
+	self.setMouseTracking(True)
+	
 	self.resize(400,350)
 	self.ciEditLine = QtGui.QLineEdit(self)
 	self.ciEditLine.move(20,0)
@@ -69,7 +67,7 @@ class StartQT4(QtGui.QMainWindow):
 	self.ciLabel.setText(QtGui.QApplication.translate("Form", "CI Name", None, QtGui.QApplication.UnicodeUTF8))
         self.bolLabel.setText(QtGui.QApplication.translate("Form", "useIP=True / False", None, QtGui.QApplication.UnicodeUTF8))
         self.ipLabel.setText(QtGui.QApplication.translate("Form", "IP Address", None, QtGui.QApplication.UnicodeUTF8))
-        self.createButton.setText(QtGui.QApplication.translate("Form", "Create", None, QtGui.QApplication.UnicodeUTF8))
+        self.createButton.setText(QtGui.QApplication.translate("Form", "Create CI", None, QtGui.QApplication.UnicodeUTF8))
 	self.dnsLabel.setText(QtGui.QApplication.translate("Form", "DNS Name", None, QtGui.QApplication.UnicodeUTF8))
 	self.createButton2.setText(QtGui.QApplication.translate("Form", "Create Temp",None, QtGui.QApplication.UnicodeUTF8))
 	self.tmpLabel.setText(QtGui.QApplication.translate("Form", "Template",None, QtGui.QApplication.UnicodeUTF8))
@@ -80,23 +78,32 @@ class StartQT4(QtGui.QMainWindow):
 	try:
                 response = client.service.createConfigurationItem(self.ciEditLine.text(), self.monitorEditLine.text(), self.bolEditLine.text(), self.dnsEditLine.text(), self.ipEditLine.text())
                 print response
+		QtGui.QMessageBox.about(self, "Success", "Success")
         except WebFault, e:
                 print e
+		QtGui.QMessageBox.about(self, "Failed", "Failed")
 	
 
     def create_tmp(self):
 	try:
 		response = client.service.linkTemplate(self.tmpEditLine.text(), self.ciEditLine.text(), self.tmpopEditLine.text())
 		print response
+		QtGui.QMessageBox.about(self, "Success", "Success")
 	except WebFault, e:
 		print e
+		QtGui.QMessageBox.about(self, "Failed", "Failed")
 
     def del_ci(self):
 	try:
 		response = client.service.deleteConfigurationItem(self.ciEditLine.text())
-		print response
+		QtGui.QMessageBox.about(self, "Success", "Success")
 	except WebFault, e:
-		print e
+		QtGui.QMessageBox.about(self, "Failed", "Failed")
+
+#    def checkText(self):
+#        if self._before != self.text():
+#            self._before = self.text()
+#            self.textModified.emit(self._before, self.text())
 
 if __name__ == "__main__":
     app = QtGui.QApplication(sys.argv)
