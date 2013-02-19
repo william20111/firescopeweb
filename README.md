@@ -7,12 +7,12 @@ A simple GUI application for adding CI's into firescope monitoring solution. The
 - Link CI's to Templates
 - Delete CI's
 - Create logical groups
+- Create service groups
 
 Features currently being added include:
 
 - Hover boxes over buttons
 - LineEdit check to make sure there is text in the nessecary boxes
-- Create service groups
 
 The features are being added in are just error checkers. The aplication needs to be more robust, it works well just noiw but when it fails it doesnt tell you why.
 
