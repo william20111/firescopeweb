@@ -47,12 +47,15 @@ class StartQT4(QtGui.QMainWindow):
 	self.delButton.move(130,315)
 	self.createButton3 = QtGui.QPushButton(self)
 	self.createButton3.move(130,350)
+	self.createButton4 = QtGui.QPushButton(self)
+	self.createButton4.move(240, 315)
 
 	####BUTTON SIGNALS####
 	QtCore.QObject.connect(self.createButton,QtCore.SIGNAL("clicked()"), self.create_srv)
 	QtCore.QObject.connect(self.createButton2,QtCore.SIGNAL("clicked()"), self.create_tmp)
 	QtCore.QObject.connect(self.delButton,QtCore.SIGNAL("clicked()"), self.del_ci)
 	QtCore.QObject.connect(self.createButton3,QtCore.SIGNAL("clicked()"), self.create_log)
+	QtCore.QObject.connect(self.createButton4,QtCore.SIGNAL("clicked()"), self.create_srv_grp)
 	
 	####LABELS####
 	self.monitorLabel = QtGui.QLabel(self)
@@ -84,25 +87,22 @@ class StartQT4(QtGui.QMainWindow):
 	self.createButton3.setText(QtGui.QApplication.translate("Form", "Create Logical", None, QtGui.QApplication.UnicodeUTF8))
 	self.monitorLabel.setText(QtGui.QApplication.translate("Form", "MONITORED", None, QtGui.QApplication.UnicodeUTF8))
 	self.ciLabel.setText(QtGui.QApplication.translate("Form", "CI Name", None, QtGui.QApplication.UnicodeUTF8))
-	self.logLabel.setText(QtGui.QApplication.translate("Form", "Logical Group",None, QtGui.QApplication.UnicodeUTF8))
+	self.logLabel.setText(QtGui.QApplication.translate("Form", "Group",None, QtGui.QApplication.UnicodeUTF8))
+	self.createButton4.setText(QtGui.QApplication.translate("Form", "Create Service",None, QtGui.QApplication.UnicodeUTF8))
 	
     def create_srv(self):
 	try:
                 response = client.service.createConfigurationItem(self.ciEditLine.text(), self.monitorEditLine.text(), self.bolEditLine.text(), self.dnsEditLine.text(), self.ipEditLine.text())
-                print response
 		QtGui.QMessageBox.about(self, "Success", "Success")
         except WebFault, e:
-                print e
 		QtGui.QMessageBox.about(self, "Failed", "Failed")
 	
 
     def create_tmp(self):
 	try:
 		response = client.service.linkTemplate(self.tmpEditLine.text(), self.ciEditLine.text(), self.tmpopEditLine.text())
-		print response
 		QtGui.QMessageBox.about(self, "Success", "Success")
 	except WebFault, e:
-		print e
 		QtGui.QMessageBox.about(self, "Failed", "Failed")
 
     def del_ci(self):
@@ -118,6 +118,12 @@ class StartQT4(QtGui.QMainWindow):
 		QtGui.QMessageBox.about(self, "Success", "Success")
 	except Webfault, e:
 		QtGui.QMessageBox.about(self, "Failed", "Failed")
+    def create_srv_grp(self):
+	try:
+		response = client.service.createServiceGroup(self.logEditLine.text())
+		QtGui.QMessageBox.about(self, "Success", "Success")
+        except Webfault, e:
+                QtGui.QMessageBox.about(self, "Failed", "Failed")
 
 #    def checkText(self):
 #        if self._before != self.text():
